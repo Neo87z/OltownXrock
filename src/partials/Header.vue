@@ -16,13 +16,34 @@
 
           <!-- Desktop sign in links -->
           <ul class="flex grow justify-end flex-wrap items-center">
-            <li>
-              <router-link class="font-medium text-sm text-slate-300 hover:text-white transition duration-150 ease-in-out" to="/signin">K-Rock Login</router-link>
-            </li>
-            <li class="ml-6">
-              <router-link class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none" to="/signup">
+
+            <li v-if="localStorageVariablePresent" class="ml-6">
+              <router-link
+                class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none"
+                to="/signup">
                 <span class="relative inline-flex items-center">
-                  K-Rock Login <span class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                  Add Winner<span
+                    class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
+                </span>
+              </router-link>
+            </li>
+            <li v-if="localStorageVariablePresent" class="ml-6">
+              <button
+                class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none"
+                @click="handleLogout">
+                <span class="relative inline-flex items-center">
+                  Logout<span
+                    class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-></span>
+                </span>
+              </button>
+            </li>
+            <li v-if="localStorageVariablePresentNot" class="ml-6">
+              <router-link
+                class="btn-sm text-slate-300 hover:text-white transition duration-150 ease-in-out w-full group [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none"
+                to="/signin">
+                <span class="relative inline-flex items-center">
+                  K-Rock Login<span
+                    class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </span>
               </router-link>
             </li>
@@ -38,5 +59,20 @@
 <script>
 export default {
   name: 'Header',
-}
+  computed: {
+    localStorageVariablePresent() {
+      return localStorage.getItem('isLoggedIn') === 'true';
+    },
+    localStorageVariablePresentNot() {
+      return localStorage.getItem('isLoggedIn') === 'false';
+    },
+  },
+  methods: {
+    handleLogout() {
+      localStorage.setItem('isLoggedIn', 'false'); // Change the login status to false
+      location.reload();
+      // Perform any additional logout actions if necessary
+    },
+  },
+};
 </script>

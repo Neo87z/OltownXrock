@@ -8,7 +8,7 @@
 
           <h2
             class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60 pb-4">
-            Available Claims</h2>
+            All Claims</h2>
           <div class="text-center">
             <!-- Testimonial image -->
 
@@ -16,33 +16,18 @@
 
             <!-- Buttons -->
             <div class="flex flex-wrap justify-center -m-1.5">
-              <button
-                class="btn-sm m-1.5 text-xs py-1.5 text-slate-300 transition duration-150 ease-in-out [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none"
-                :class="active === ShowMountPearl ? 'opacity-100' : 'opacity-30 hover:opacity-60'" @click="handleClick">
-                <span class="relative">
-                  <span class="text-slate-50">Mount Pearl Store</span>
-                </span>
-              </button>
-              <button
-                class="btn-sm m-1.5 text-xs py-1.5 text-slate-300 transition duration-150 ease-in-out [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none"
-                :class="active === index ? 'opacity-100' : 'opacity-30 hover:opacity-60'" @click="handleClickFresh">
-                <span class="relative">
-                  <span class="text-slate-50">Freshwater Store</span>
-                </span>
-              </button>
+              <input placeholder="Enter The Name" id="Prize" class="form-input w-full" type="text" required
+                v-model="searchValue" @input="handleInput" />
 
-              <button
-                class="btn-sm m-1.5 text-xs py-1.5 text-slate-300 transition duration-150 ease-in-out [background:linear-gradient(theme(colors.slate.900),_theme(colors.slate.900))_padding-box,_conic-gradient(theme(colors.slate.400),_theme(colors.slate.700)_25%,_theme(colors.slate.700)_75%,_theme(colors.slate.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-slate-800/30 before:rounded-full before:pointer-events-none"
-                :class="active === index ? 'opacity-100' : 'opacity-30 hover:opacity-60'" @click="handleClickMount">
-                <span class="relative">
-                  <span class="text-slate-50">Higgins Line Store</span>
-                </span>
-              </button>
             </div>
           </div>
 
         </div>
 
+        <div v-for="claim in filteredClaims" :key="claim.id">
+          <!-- Display the filtered claims -->
+          {{ claim.title }}
+        </div>
 
         <div v-if="isModalOpen" class="modal" style="z-index: 9999;">
           <div class="modal-content">
@@ -84,7 +69,7 @@
             <div class="testimonials-carousel swiper-container group">
               <div class="swiper-wrapper w-full grid grid-cols-4 gap-4">
 
-                <HighlighterItem v-for="(item, index) in responseData" :key="index" class="swiper-wrapper w-fit">
+                <HighlighterItem v-for="(item, index) in NewData" :key="index" class="swiper-wrapper w-fit">
                   <div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden shadow-md">
                     <!-- Card content -->
                     <div class="flex flex-col p-6 h-full">
@@ -122,95 +107,7 @@
           </div>
         </div>
 
-        <div v-if="ShowFreshwaterl"
-          class="relative before:absolute before:inset-0 before:-translate-x-full before:z-20 before:bg-gradient-to-l before:from-transparent before:to-slate-900 before:to-20% after:absolute after:inset-0 after:translate-x-full after:z-20 after:bg-gradient-to-r after:from-transparent after:to-slate-900 after:to-20%">
-          <div class="testimonials-carousel swiper-container group ">
 
-            <div class="testimonials-carousel swiper-container group">
-              <div class="swiper-wrapper w-full grid grid-cols-4 gap-4">
-
-                <HighlighterItem v-for="(item, index) in responseDataFreshwater" :key="index" class="swiper-wrapper w-fit">
-                  <div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden shadow-md">
-                    <!-- Card content -->
-                    <div class="flex flex-col p-6 h-full">
-                      <img class="mb-3" src="../images/carousel-icon-01.svg" width="56" height="56" alt="Icon 01">
-                      <div class="grow">
-                        <div class="font-bold text-lg mb-1">{{ item.FirstName }} {{ item.LastName }}</div>
-                        <div class="text-slate-400 mb-3">Store :- {{ item.ClaimLocation }}</div>
-
-
-                        <div class="text-slate-400 mb-3">Claimable Item :- {{ item.ClaimableItem }}</div>
-                        <div class="text-slate-400 mb-3">Winning Date :- {{ item.ClaimDate }}</div>
-                      </div>
-                      <div class="text-right">
-                        <button @click="openModal(item._id)"
-                          class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group"
-                          type="button">
-                          Claim
-                          <span
-                            class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </HighlighterItem>
-
-
-
-                <!-- ... Repeat the pattern for Highlighter Items 3 to 10 -->
-
-              </div>
-            </div>
-
-
-
-          </div>
-        </div>
-
-        <div v-if="ShowHigginsLine"
-          class="relative before:absolute before:inset-0 before:-translate-x-full before:z-20 before:bg-gradient-to-l before:from-transparent before:to-slate-900 before:to-20% after:absolute after:inset-0 after:translate-x-full after:z-20 after:bg-gradient-to-r after:from-transparent after:to-slate-900 after:to-20%">
-          <div class="testimonials-carousel swiper-container group ">
-
-            <div class="testimonials-carousel swiper-container group">
-              <div class="swiper-wrapper w-full grid grid-cols-4 gap-4">
-
-                <HighlighterItem v-for="(item, index) in responseDataHiggins" :key="index" class="swiper-wrapper w-fit">
-                  <div class="relative h-full bg-slate-900 rounded-[inherit] z-20 overflow-hidden shadow-md">
-                    <!-- Card content -->
-                    <div class="flex flex-col p-6 h-full">
-                      <img class="mb-3" src="../images/carousel-icon-01.svg" width="56" height="56" alt="Icon 01">
-                      <div class="grow">
-                        <div class="font-bold text-lg mb-1">{{ item.FirstName }} {{ item.LastName }}</div>
-                        <div class="text-slate-400 mb-3">Store :- {{ item.ClaimLocation }}</div>
-
-
-                        <div class="text-slate-400 mb-3">Claimable Item :- {{ item.ClaimableItem }}</div>
-                        <div class="text-slate-400 mb-3">Winning Date :- {{ item.ClaimDate }}</div>
-                      </div>
-                      <div class="text-right">
-                        <button @click="openModal(item._id)"
-                          class="text-sm font-medium text-slate-300 hover:text-white inline-flex items-center transition duration-150 ease-in-out group"
-                          type="button">
-                          Claim
-                          <span
-                            class="tracking-normal text-purple-500 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </HighlighterItem>
-
-
-
-                <!-- ... Repeat the pattern for Highlighter Items 3 to 10 -->
-
-              </div>
-            </div>
-
-
-
-          </div>
-        </div>
 
 
 
@@ -258,12 +155,47 @@ export default {
       selectedID: null,
       responseDataFreshwater: null,
       responseDataHiggins: null,
+      filteredClaims: '',
+      NewData: null,
     };
   },
   mounted() {
     this.getClaimData()
-    this.getClaimDataFreshwater()
-    this.getClaimDataHiggings()
+
+  },
+  computed: {
+    filteredClaims() {
+      const searchValueX = this.filteredClaims.toLowerCase().trim();
+
+      console.log(searchValueX);
+      console.log(this.responseData, 'heree');
+
+      if (searchValueX !== '') {
+        try {
+          const filteredData = this.responseData.filter(claim => {
+            // Modify the condition based on your filtering logic
+            console.log(claim, 'here');
+            const fullName = (claim.FirstName + ' ' + claim.LastName).toLowerCase().trim();
+            return (
+              fullName.includes(searchValueX) ||
+              claim.LastName.toLowerCase().includes(searchValueX.trim()) ||
+              claim.FirstName.toLowerCase().includes(searchValueX.trim()) ||
+              claim.Email.toLowerCase().includes(searchValueX.trim()) ||
+              claim.Phone.toLowerCase().includes(searchValueX.trim()) ||
+              claim.ClaimableItem.toLowerCase().includes(searchValueX.trim()) ||
+              claim.ClaimDate.toLowerCase().includes(searchValueX.trim())
+            );
+          });
+
+          // Set the filtered data to the NewData property
+          this.NewData = filteredData;
+        } catch (error) {
+          console.error('Error filtering claims:', error);
+        }
+      } else {
+        this.NewData = null;
+      }
+    },
   },
   methods: {
     async claimItem(index) {
@@ -311,6 +243,12 @@ export default {
       }
       // Perform any additional logic you need with the index
     },
+    handleInput() {
+      console.log(this.searchValue)
+      // Perform any necessary logic when the input value changes
+      // For example, you can update the filtered claims array here
+      this.filteredClaims = this.searchValue;
+    },
     openModal(id) {
       this.isModalOpen = true;
       this.selectedID = id
@@ -350,37 +288,11 @@ export default {
     },
     async getClaimData() {
       try {
-        const response = await axios.get('http://localhost:8089/claims/get-all-claims-MP');
+        const response = await axios.get('http://localhost:8089/claims/get-all-claims');
         const responseData = response.data;
         const dataArray = responseData.data;
         console.log(dataArray);
         this.responseData = dataArray;
-        return dataArray;
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        throw error;
-      }
-    },
-    async getClaimDataFreshwater() {
-      try {
-        const response = await axios.get('http://localhost:8089/claims/get-all-claims-FR');
-        const responseData = response.data;
-        const dataArray = responseData.data;
-        console.log(dataArray);
-        this.responseDataFreshwater = dataArray;
-        return dataArray;
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        throw error;
-      }
-    },
-    async getClaimDataHiggings() {
-      try {
-        const response = await axios.get('http://localhost:8089/claims/get-all-claims-HG');
-        const responseData = response.data;
-        const dataArray = responseData.data;
-        console.log(dataArray);
-        this.responseDataHiggins = dataArray;
         return dataArray;
       } catch (error) {
         console.error('Error fetching data:', error);

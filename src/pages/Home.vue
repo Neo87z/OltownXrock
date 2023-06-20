@@ -9,9 +9,10 @@
 
  
       <Features02 />
-   
-      <TestimonialsCarousel />
       <Calims />
+      <TestimonialsCarousel />
+      <AllClaims />
+      
       
 
     </main>
@@ -36,6 +37,7 @@ import Pricing from '../partials/Pricing.vue'
 import Testimonials from '../partials/Testimonials.vue'
 import Cta from '../partials/Cta.vue'
 import Footer from '../partials/Footer.vue'
+import AllClaims from '../partials/allClaims.vue'
 
 export default {
   name: 'Home',
@@ -52,7 +54,7 @@ export default {
     Testimonials,
     Cta,
     Calims,
-    Footer,
+    Footer,AllClaims,
   },
 }
 </script>
