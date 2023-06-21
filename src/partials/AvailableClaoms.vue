@@ -217,7 +217,7 @@ export default {
           });
           //this.$toast.open('Hello, world!');
           // Make a POST request and await the response
-          const response = await axios.post('http://localhost:8089/claims/claim-item', payload);
+          const response = await axios.post('https://oldtown-colab-fb9fd1299735.herokuapp.com/claims/claim-item-weekly', payload);
           location.reload();
           // Handle the response data
           console.log('Response:', response.data);
@@ -280,7 +280,7 @@ export default {
     },
     async getClaimData() {
       try {
-        const response = await axios.get('http://localhost:8089/claims/get-weekly-winners');
+        const response = await axios.get('https://oldtown-colab-fb9fd1299735.herokuapp.com/claims/get-weekly-winners');
         const responseData = response.data;
         const dataArray = responseData.data;
         console.log(dataArray);
