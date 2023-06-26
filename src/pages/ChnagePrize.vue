@@ -25,7 +25,7 @@
             </div>
             <!-- Page title -->
             <h1 class="h2 bg-clip-text text-transparent bg-gradient-to-r from-slate-200/60 via-slate-200 to-slate-200/60">
-              K-Rock Portal Login</h1>
+              Change Weekly Prize</h1>
           </div>
 
           <!-- Form -->
@@ -34,21 +34,21 @@
             <form>
               <div class="space-y-4">
                 <div>
-                  <label class="block text-sm text-slate-300 font-medium mb-1" for="email">Username</label>
-                  <input id="email" class="form-input w-full" type="text" v-model="username" required />
+                  <label class="block text-sm text-slate-300 font-medium mb-1" for="email">Current</label>
+                  <input id="email" class="form-input w-full" type="text" v-model="Prize" disabled />
                 </div>
                 <div>
                   <div class="flex justify-between">
-                    <label class="block text-sm text-slate-300 font-medium mb-1" for="password">Password</label>
+                    <label class="block text-sm text-slate-300 font-medium mb-1" for="password">New Prize</label>
                   </div>
-                  <input id="password" class="form-input w-full" type="text" v-model="password" autocomplete="on"
+                  <input id="password" class="form-input w-full" type="text" v-model="NewPrize" autocomplete="on"
                     required />
                 </div>
               </div>
               <div class="mt-6">
                 <button class="btn text-sm text-white bg-red-500 hover:bg-red-600 w-full shadow-sm group"
                   @click.prevent="handleLogin">
-                  Login <span
+                  Change <span
                     class="tracking-normal text-red-300 group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out ml-1">-&gt;</span>
                 </button>
               </div>
@@ -76,23 +76,46 @@ export default {
     return {
       username: '',
       password: '',
+      Prize: 'lol',
     };
   },
+  mounted() {
+    this.fetchPrize()
 
+  },
   methods: {
+    async fetchPrize() {
+      try {
+
+        const response = await axios.get('https://oldtown-colab-fb9fd1299735.herokuapp.com/claims/get-prize');
+        const responseData = response.data;
+        const dataArray = responseData.data;
+        console.log(dataArray[0].Prize);
+        this.Prize = dataArray[0].Prize
+
+        // Optionally, you can perform any additional logic after retrieving the prize
+      } catch (error) {
+        console.error('Error:', error);
+        this.$toast.open({
+          message: 'Failed to fetch prize',
+          type: 'error',
+          position: 'top-right',
+          duration: 5000,
+        });
+      }
+    },
     async handleLogin() {
       // Perform username and password validation
-      const Username = this.username;
-      const Password = this.password
+      const NewPrize = this.NewPrize;
       const payload = {
-        Username,
-        Password,
+        NewPrize,
+        
       };
       // console.log(payload)
 
       try {
         // Make a POST request and await the response
-        const response = await axios.post('https://oldtown-colab-fb9fd1299735.herokuapp.com/claims/check-login', payload);
+        const response = await axios.post('https://oldtown-colab-fb9fd1299735.herokuapp.com/claims/update-prize', payload);
 
         console.log(response.data.data)
 
@@ -105,17 +128,13 @@ export default {
           });
         } else {
           this.$toast.open({
-            message: 'Login Sucessfull!',
+            message: ' Sucessfull Changed!',
             type: 'success',
             position: 'top-right',
             duration: 5000,
           });
-          if (response.data.data == 'KrockLogin') {
-            this.$router.push('/add-claim');
-          }
-          if (response.data.data == 'OldtonwLogin') {
-            this.$router.push('/chnage-prize');
-          }
+          
+          location.reload()
         }
         // Handle the response data
 

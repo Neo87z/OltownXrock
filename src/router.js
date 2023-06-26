@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from './pages/Home.vue'
 import SignIn from './pages/SignIn.vue'
 import SignUp from './pages/SignUp.vue'
+import ChnagePeize from './pages/ChnagePrize.vue'
 import ResetPassword from './pages/ResetPassword.vue'
 
 const routerHistory = createWebHistory()
@@ -15,7 +16,7 @@ const router = createRouter({
       window.scroll({ top: 0 })
       document.querySelector('html').style.scrollBehavior = ''
     }
-  },  
+  },
   history: routerHistory,
   routes: [
     {
@@ -27,13 +28,17 @@ const router = createRouter({
       component: SignIn
     },
     {
-      path: '/signup',
+      path: '/add-claim',
       component: SignUp
-    },    
+    },
     {
       path: '/reset-password',
       component: ResetPassword
-    }
+    },
+    {
+      path: '/chnage-prize',
+      component: ChnagePeize
+    },
   ]
 })
 
